@@ -1,0 +1,129 @@
+/*--------------------------------------*/
+/* CSS Created by Penny Arcade - 2010 --*/
+/* www.penny-arcade.com ----------------*/
+/*--------------------------------------*/
+
+/*---------------------*/
+/* General ------------*/
+/*---------------------*/
+* {margin: 0;padding: 0;}
+body {
+	background: #16171b url(../img/bg_body.png) top left repeat-x;
+	font-family: Helvetica, Arial, Verdana, sans-serif;
+	color: #fff;
+}
+hr {display: none;}
+img, fieldset {border: none;}
+a:link, a:visited {color: #d5e05b;}
+a:hover, a:active {color: #2dd0ed;}
+#container {
+	width: 1920px;
+	height: 1080px;
+}
+/*---------------------*/
+/* Header -------------*/
+/*---------------------*/
+#header {
+	background: url(../img/bg_header.jpg) top left no-repeat;
+	display: block;
+	text-indent: -999em;
+	overflow: hidden;
+	width: 900px;
+	height: 340px;
+}
+/*---------------------*/
+/* Main ---------------*/
+/*---------------------*/
+#left {
+	width: 900px;
+	margin: 0 0 0 50px;
+	float: left;
+	display: inline;
+}
+#right {
+	background: url(../img/bg_grey.png) top left repeat;
+	padding: 30px;
+	width: 825px;
+	float: right;
+	display: inline;
+	margin: 0 50px 0 0;
+}
+#main {
+	background: #012d73 url(../img/bg_content.png) top left repeat-x;
+	width: 900px;
+}
+#lineTweets li p,
+#officialTweets li p {
+	font-size: 24px;
+	line-height: 30px;
+	color: #fff;
+	margin: 0 0 15px 0;	
+}
+/*---------------------*/
+/* Line Tweets --------*/
+/*---------------------*/
+#txtLines {
+	background: url(../img/txt_pax_lines.png) top left no-repeat;
+	display: block;
+	text-indent: -999em;
+	overflow: hidden;
+	width: 263px;
+	height: 44px;
+	margin: 0 0 15px 0;
+}
+#lineTweets {
+	background: url(../img/bg_footer.png) bottom left no-repeat;
+	width: 840px;
+	padding: 40px 30px 70px 30px;	
+}
+#lineTweets p {
+	font-size: 20px;
+	line-height: 28px;
+	color: #aec9f3;
+}
+#paxLines {
+	margin: 15px 0 0 0;
+}
+.tweets li {
+	background: url(../img/icon_twt.png) 0 20px no-repeat;
+	padding: 15px 0 20px 65px;
+	list-style: none;
+	list-style-position: outside;
+	border-top: 1px solid #012662;
+}
+.time {
+	background: #012662;
+	font-weight: bold;
+	color: #d5e05b;
+	font-size: 16px;
+	line-height: 18px;
+	text-decoration: none;
+	text-transform: uppercase;
+	padding: 7px 7px 5px 7px;
+}
+/*---------------------*/
+/* Official Tweets ----*/
+/*---------------------*/
+#officialPax {
+	margin: 15px 0 0 0;
+}
+#officialTweets p {
+	font-size: 20px;
+	line-height: 28px;
+	color: #8d8d8d;
+}
+#officialTweets li {
+	border-top: 1px solid #242424;
+}
+#txtOfficial {
+	background: url(../img/txt_official_pax.png) top left no-repeat;
+	display: block;
+	text-indent: -999em;
+	overflow: hidden;
+	width: 321px;
+	height: 44px;
+	margin: 30px 0 15px 0;
+}
+#officialTweets .time {
+	background: #242424;
+}
