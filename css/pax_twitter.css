@@ -17,8 +17,8 @@ img, fieldset {border: none;}
 a:link, a:visited {color: #d5e05b;}
 a:hover, a:active {color: #2dd0ed;}
 #container {
-	width: 1920px;
-	height: 1080px;
+	width: 1280px;
+	height: 720px;
 }
 /*---------------------*/
 /* Header -------------*/
@@ -28,29 +28,28 @@ a:hover, a:active {color: #2dd0ed;}
 	display: block;
 	text-indent: -999em;
 	overflow: hidden;
-	width: 900px;
-	height: 340px;
+	width: 601px;
+	height: 227px;
 }
 /*---------------------*/
 /* Main ---------------*/
 /*---------------------*/
 #left {
-	width: 900px;
-	margin: 0 0 0 50px;
+	width: 600px;
+	margin: 0 0 0 20px;
 	float: left;
 	display: inline;
 }
 #right {
 	background: url(../img/bg_grey.png) top left repeat;
-	padding: 30px;
-	width: 825px;
+	padding: 20px;
+	width: 600px;
 	float: right;
 	display: inline;
-	margin: 0 50px 0 0;
 }
 #main {
 	background: #012d73 url(../img/bg_content.png) top left repeat-x;
-	width: 900px;
+	width: 600px;
 }
 #lineTweets li p,
 #officialTweets li p {
@@ -67,18 +66,18 @@ a:hover, a:active {color: #2dd0ed;}
 	display: block;
 	text-indent: -999em;
 	overflow: hidden;
-	width: 263px;
-	height: 44px;
-	margin: 0 0 15px 0;
+	width: 178px;
+	height: 30px;
+	margin: 0 0 10px 0;
 }
 #lineTweets {
 	background: url(../img/bg_footer.png) bottom left no-repeat;
-	width: 840px;
-	padding: 40px 30px 70px 30px;	
+	width: 560px;
+	padding: 25px 20px 70px 20px;	
 }
 #lineTweets p {
-	font-size: 20px;
-	line-height: 28px;
+	font-size: 18px;
+	line-height: 24px;
 	color: #aec9f3;
 }
 #paxLines {
@@ -108,8 +107,8 @@ a:hover, a:active {color: #2dd0ed;}
 	margin: 15px 0 0 0;
 }
 #officialTweets p {
-	font-size: 20px;
-	line-height: 28px;
+	font-size: 18px;
+	line-height: 24px;
 	color: #8d8d8d;
 }
 #officialTweets li {
@@ -120,9 +119,9 @@ a:hover, a:active {color: #2dd0ed;}
 	display: block;
 	text-indent: -999em;
 	overflow: hidden;
-	width: 321px;
-	height: 44px;
-	margin: 30px 0 15px 0;
+	width: 216px;
+	height: 30px;
+	margin: 10px 0 10px 0;
 }
 #officialTweets .time {
 	background: #242424;
