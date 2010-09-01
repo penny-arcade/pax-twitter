@@ -19,4 +19,5 @@ function twitterPoll() {
 
 twitterPoll();
 
-setInterval("twitterPoll()", 50000);
+// You should only visit this page from a twitter whitelisted IP
+setInterval("twitterPoll()", 1000);
