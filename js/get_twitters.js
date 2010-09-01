@@ -5,6 +5,7 @@ function twitterPoll() {
         enableLinks: true, 
         ignoreReplies: true, 
         clearContents: true,
+        trimUser: true,
         template: '<p>%text%</p><a class="time" href="http://twitter.com/%user_screen_name%/statuses/%id%/">%time%</a>'
     });
     getTwitters('officialPax', { 
@@ -13,11 +14,13 @@ function twitterPoll() {
         enableLinks: true, 
         ignoreReplies: true, 
         clearContents: true,
+        trimUser: true,
         template: '<p>%text%</p><a class="time" href="http://twitter.com/%user_screen_name%/statuses/%id%/">%time%</a>'
     });
 }
 
 twitterPoll();
 
-// You should only visit this page from a twitter whitelisted IP
-setInterval("twitterPoll()", 1000);
+// We poll *much* faster at the conference (~1 sec)
+// You should only change this if you have a whitelisted ip
+setInterval("twitterPoll()", 60000);
