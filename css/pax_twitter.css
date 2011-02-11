@@ -14,8 +14,8 @@ body {
 }
 hr {display: none;}
 img, fieldset {border: none;}
-a:link, a:visited {color: #d5e05b;}
-a:hover, a:active {color: #2dd0ed;}
+a:link, a:visited {color: #2dd0ed;}
+a:hover, a:active {color: #c00;}
 #container {
 	width: 1280px;
 	height: 720px;
@@ -48,7 +48,7 @@ a:hover, a:active {color: #2dd0ed;}
 	display: inline;
 }
 #main {
-	background: #012d73 url(../img/bg_content.png) top left repeat-x;
+	background: #67030e url(../img/bg_content.png) top left repeat-x;
 	width: 600px;
 }
 #lineTweets li p,
@@ -78,7 +78,7 @@ a:hover, a:active {color: #2dd0ed;}
 #lineTweets p {
 	font-size: 18px;
 	line-height: 24px;
-	color: #aec9f3;
+	color: #ffdfe0;
 }
 #paxLines {
 	margin: 15px 0 0 0;
@@ -88,12 +88,12 @@ a:hover, a:active {color: #2dd0ed;}
 	padding: 15px 0 20px 65px;
 	list-style: none;
 	list-style-position: outside;
-	border-top: 1px solid #012662;
+	border-top: 1px solid #4c030b;
 }
 .time {
-	background: #012662;
+	background: #4c030b;
 	font-weight: bold;
-	color: #d5e05b;
+	color: #c00;
 	font-size: 16px;
 	line-height: 18px;
 	text-decoration: none;
