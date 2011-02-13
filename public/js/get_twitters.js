@@ -3,7 +3,6 @@ $(document).ready(function() {
   socket.connect();
   socket.on('message', function(message){
     message = JSON.parse(message);
-    console.log(message);
     if (message.type == 'user') {
       var el = $('<p>' + message.data.tweet.text + '</p><a class="time" href="http://twitter.com/' + message.data.tweet.user.screen_name + '/statuses/' + message.data.tweet.id + '/">' + message.data.tweet.created_at + '</a>');
       if (message.data.tweet.user.screen_name == 'pax_lines') {
