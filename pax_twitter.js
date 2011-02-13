@@ -75,7 +75,7 @@ var io = io.listen(app);
 
 io.on('connection', function(client) {
   for(var user in followed_user_tweets) {
-    for(var i in followed_user_tweets[user]) {
+    for(var i = followed_user_tweets[user].length - 1; i >= 0; i--) {
       sendData(client, 'user', {
         user: user,
         tweet: followed_user_tweets[user][i]
@@ -83,7 +83,7 @@ io.on('connection', function(client) {
     }
   }
   for(var keyword in followed_keyword_tweets) {
-    for(var i in followed_keyword_tweets[keyword]) {
+    for(var i = followed_keyword_tweets[keyword].length - 1; i >= 0; i--) {
       sendData(client, 'keyword', {
         keyword: keyword,
         tweet: followed_keyword_tweets[keyword][i]
@@ -172,7 +172,7 @@ function primeCache() {
               try {
                 var timeline = JSON.parse(body);
                 timeline.sort(function(a,b) {
-                  return b.id - a.id;
+                  return a.id - b.id;
                 });
 
                 var low_id = 0;
