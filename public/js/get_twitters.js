@@ -1,4 +1,27 @@
+$(document).ready(function() {
+  var socket = new io.Socket(); 
+  socket.connect();
+  socket.on('message', function(message){
+    message = JSON.parse(message);
+    console.log(message);
+    if (message.type == 'user') {
+      var el = $('<p>' + message.data.tweet.text + '</p><a class="time" href="http://twitter.com/' + message.data.tweet.user.screen_name + '/statuses/' + message.data.tweet.id + '/">' + message.data.tweet.created_at + '</a>');
+      if (message.data.tweet.user.screen_name == 'pax_lines') {
+        $('#paxLines').prepend(el);
+      } else if (message.data.tweet.user.screen_name == 'Official_PAX') {
+        $('#officialPax').prepend(el);
+      }
+    }
+  }); 
+  // Do I need this?
+  // socket.on('disconnect', function(){ setTimeout(function() {socket.connect()}, 5000) }); 
+});
+
+
+// Keeping this until we're happy with the new stuff
 function twitterPoll() {
+
+
     getTwitters('paxLines', { 
         id: 'pax_lines', 
         count: 2, 
@@ -17,6 +40,3 @@ function twitterPoll() {
     });
 }
 
-twitterPoll();
-
-setInterval("twitterPoll()", 50000);

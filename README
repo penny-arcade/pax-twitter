@@ -1,0 +1,11 @@
+Installation:
+
+  First install the dependencies:
+    * git submodule update --init --recursive
+
+  Next, configure the app:
+    * cp config.example.json config.json
+    * Put in the correct port, twitter username and password
+
+  If you would like to persist data between sessions:
+    * touch cache.json

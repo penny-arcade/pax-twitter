@@ -1,0 +1,7 @@
+{
+  "username": "EXAMPLEUSER",
+  "password": "SUPERSECURE",
+  "listen_port": 80,
+  "follow_users": [26281970, 137527834],
+  "follow_keywords": ["#pax"]
+}
