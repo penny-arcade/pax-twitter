@@ -4,3 +4,6 @@
 [submodule "deps/socket.io"]
 	path = deps/socket.io
 	url = https://github.com/LearnBoost/Socket.IO-node.git
+[submodule "deps/twitter-node"]
+	path = deps/twitter-node
+	url = https://github.com/technoweenie/twitter-node.git
