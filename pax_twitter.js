@@ -122,7 +122,6 @@ function receivedTweet(tweet) {
       user: tweet.user.id,
       tweet: tweet
     });
-    system.debug(system.inspect(followed_user_tweets));
   }
   for(var i in config.follow_keywords) {
     var keyword = config.follow_keywords[i];
