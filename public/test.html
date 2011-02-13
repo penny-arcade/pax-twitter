@@ -1,0 +1,26 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>PAX Lines &amp; Official Twitter</title>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+	<script type="text/javascript" src="socket.io/socket.io.js"></script>
+	<script type="text/javascript">
+    $(document).ready(function() {
+      var socket = new io.Socket(); 
+      socket.connect();
+      socket.on('message', function(message){
+        message = JSON.parse(message);
+        var el = $('<div class="entry">Type: ' + message.type + ', User: ' + message.data.tweet.user.screen_name + '<br />' + message.data.tweet.text + '</div>');
+        $('#content').prepend(el);
+      });
+    });
+  </script>
+</head>
+<body>
+<h1>Raw responses</h1>
+<div id="content">
+</div>
+</body>
+</html>
