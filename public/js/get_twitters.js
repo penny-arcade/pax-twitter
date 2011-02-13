@@ -4,7 +4,7 @@ $(document).ready(function() {
   socket.on('message', function(message){
     message = JSON.parse(message);
     if (message.type == 'user') {
-      var el = $('<p>' + message.data.tweet.text + '</p><a class="time" href="http://twitter.com/' + message.data.tweet.user.screen_name + '/statuses/' + message.data.tweet.id + '/">' + message.data.tweet.created_at + '</a>');
+      var el = $('<li><p>' + message.data.tweet.text + '</p><a class="time" href="http://twitter.com/' + message.data.tweet.user.screen_name + '/status/' + message.data.tweet.id + '/">' + message.data.tweet.created_at + '</a></li>');
       if (message.data.tweet.user.screen_name == 'pax_lines') {
         $('#paxLines').prepend(el);
       } else if (message.data.tweet.user.screen_name == 'Official_PAX') {
