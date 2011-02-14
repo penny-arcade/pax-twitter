@@ -1,5 +1,4 @@
 require.paths.unshift(__dirname + '/deps/express/support');
-require.paths.unshift(__dirname + '/deps');
 var sys = require('sys'),
   fs = require('fs'),
   http = require('http'),
