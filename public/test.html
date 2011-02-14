@@ -16,8 +16,8 @@
       socket.on('message', function(message){
         message = JSON.parse(message);
         addTweet({
-            id : message.data.tweet.id,
-            tweetURL : "http://twitter.com/" + message.data.tweet.user.screen_name + "/status/" + message.data.tweet.id,
+            id : message.data.tweet.id_str,
+            tweetURL : "http://twitter.com/" + message.data.tweet.user.screen_name + "/status/" + message.data.tweet.id_str,
             screenName : message.data.tweet.user.screen_name,
             realName : message.data.tweet.user.name,
             tweetText : message.data.tweet.text,
