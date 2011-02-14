@@ -1,6 +1,7 @@
 Installation:
 
   First install the dependencies:
+    * Node >= 0.4.0
     * git submodule update --init --recursive
 
   Next, configure the app:
