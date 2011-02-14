@@ -6,17 +6,63 @@
 	<title>PAX Lines &amp; Official Twitter</title>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 	<script type="text/javascript" src="socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="js/date.format.js"></script>
+  <script type="text/javascript" src="js/twitter-text.js"></script>
+  <script type="text/javascript" src="js/mustache.js"></script>
 	<script type="text/javascript">
     $(document).ready(function() {
       var socket = new io.Socket(); 
       socket.connect();
       socket.on('message', function(message){
         message = JSON.parse(message);
-        var el = $('<div class="entry">Type: ' + message.type + ', User: ' + message.data.tweet.user.screen_name + '<br />' + message.data.tweet.text + '</div>');
-        $('#content').prepend(el);
+        addTweet({
+            id : message.data.tweet.id,
+            tweetURL : "http://twitter.com/" + message.data.tweet.user.screen_name + "/status/" + message.data.tweet.id,
+            screenName : message.data.tweet.user.screen_name,
+            realName : message.data.tweet.user.name,
+            tweetText : message.data.tweet.text,
+            source : message.data.tweet.source,
+            profilePic : message.data.tweet.user.profile_image_url,
+            profileBackgroundColor : message.data.tweet.user.profile_background_color,
+            profileBackgroundImage : message.data.tweet.user.profile_background_image_url,
+            profileTextColor : message.data.tweet.user.profile_text_color,
+            profileLinkColor : message.data.tweet.user.profile_link_color,
+            timeStamp : message.data.tweet.created_at,
+            utcOffset : message.data.tweet.user.utc_offset
+        }); 
       });
     });
+
+addTweet = function(t){
+    
+    // t will become my mustache 'view' object... but i need to make some mods to it
+    
+    var tweetView = t;
+    tweetView.tweetText = TwitterText.auto_link(t.tweetText);
+
+    // remember, triple stache gives you unescaped code
+
+    var tweetTemplate = "<!-- {{{tweetURL}}} --> ";
+tweetTemplate += "<style type='text/css'>.bbpBox{{id}} {background:url({{{profileBackgroundImage}}}) #{{{profileBackgroundColor}}};padding:20px;} p.bbpTweet{background:#fff;padding:10px 12px 10px 12px;margin:0;min-height:48px;color:#000;font-size:18px !important;line-height:22px;-moz-border-radius:5px;-webkit-border-radius:5px} p.bbpTweet span.metadata{display:block;width:100%;clear:both;margin-top:8px;padding-top:12px;height:40px;border-top:1px solid #fff;border-top:1px solid #e6e6e6} p.bbpTweet span.metadata span.author{line-height:19px} p.bbpTweet span.metadata span.author img{float:left;margin:0 7px 0 0px;width:38px;height:38px} p.bbpTweet a:hover{text-decoration:underline}p.bbpTweet span.timestamp{font-size:12px;display:block}</style> ";
+
+tweetTemplate += "<div class='bbpBox{{id}} bbpContainer'><p class='bbpTweet'>{{{tweetText}}}<span class='timestamp'><a title='{{timeStamp}}' href='{{{tweetURL}}}'>less than a minute ago</a> via {{{source}}}</span><span class='metadata'><span class='author'><a href='http://twitter.com/{{screenName}}'><img src='{{profilePic}}' /></a><strong><a href='http://twitter.com/{{screenName}}'>{{realName}}</a></strong><br/>{{screenName}}</span></span></p></div>";
+
+    tweetTemplate += " <!-- end of tweet -->";
+    
+    var tweetMarkup = Mustache.to_html(tweetTemplate, tweetView);
+        
+    // whew
+    
+    $('#content').prepend(tweetMarkup);
+}
   </script>
+  <style type="text/css">
+    .bbpContainer {
+      margin: 10px;
+      width: 570px;
+      font-family: Verdana, sans-serif;
+    }
+  </style>
 </head>
 <body>
 <h1>Raw responses</h1>
