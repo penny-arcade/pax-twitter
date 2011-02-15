@@ -1,12 +1,15 @@
 $(document).ready(function() {
   function addTweet(tweet, selector, max_count) {
-    var parsed_date = new Date(Date.parse(tweet.created_at));
-    var date_str = parsed_date.format('h:MM tt mmm dS, yyyy');
-    var tweet_el = $('<li><p>' + TwitterText.auto_link(tweet.text) + '</p><a class="time" href="http://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str + '/">' + date_str + '</a></li>');
     var container = $(selector);
-    container.prepend(tweet_el);
-    var li_selector = 'li:gt(' + (max_count - 1) + ')';
-    container.find(li_selector).remove();
+    if (container.length > 0) {
+      var parsed_date = new Date(Date.parse(tweet.created_at));
+      var date_str = parsed_date.format('h:MM tt mmm dS, yyyy');
+      var tweet_el = $('<li><p>' + TwitterText.auto_link(tweet.text) + '</p><a class="time" href="http://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str + '/"><abbr title="' + tweet.created_at + '">' + date_str + '</abbr></a></li>');
+      tweet_el.find('abbr').timeago();
+      container.prepend(tweet_el);
+      var li_selector = 'li:gt(' + (max_count - 1) + ')';
+      container.find(li_selector).remove();
+    }
   }
 
   var socket = new io.Socket(); 
@@ -18,6 +21,8 @@ $(document).ready(function() {
         addTweet(message.data.tweet, '#paxLines', 2); 
       } else if (message.data.tweet.user.screen_name == 'Official_PAX') {
         addTweet(message.data.tweet, '#officialPax', 4); 
+      } else if (message.data.tweet.user.screen_name == 'PAX_Tourney') {
+        addTweet(message.data.tweet, '#PaxTourney', 2); 
       }
     }
   }); 
