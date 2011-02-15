@@ -2,7 +2,7 @@ $(document).ready(function() {
   function addTweet(tweet, selector, max_count) {
     var parsed_date = new Date(Date.parse(tweet.created_at));
     var date_str = parsed_date.format('h:MM tt mmm dS, yyyy');
-    var tweet_el = $('<li><p>' + tweet.text + '</p><a class="time" href="http://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str + '/">' + date_str + '</a></li>');
+    var tweet_el = $('<li><p>' + TwitterText.auto_link(tweet.text) + '</p><a class="time" href="http://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str + '/">' + date_str + '</a></li>');
     var container = $(selector);
     container.prepend(tweet_el);
     var li_selector = 'li:gt(' + (max_count - 1) + ')';
