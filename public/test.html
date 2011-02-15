@@ -31,6 +31,18 @@
             utcOffset : message.data.tweet.user.utc_offset
         }); 
       });
+      var reconnectTimer;
+
+      var reconnect = function() {
+        if (reconnectTimer == null) {
+          reconnectTimer = setTimeout(function() {
+            socket.connect();
+            reconnectTimer = null;
+          }, 5000);
+        }
+      }
+      socket.on('disconnect', reconnect);
+      socket.on('connect_failed', reconnect); 
     });
 
 addTweet = function(t){

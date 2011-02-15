@@ -22,7 +22,18 @@ $(document).ready(function() {
     }
   }); 
   // Do I need this?
-  // socket.on('disconnect', function(){ setTimeout(function() {socket.connect()}, 5000) }); 
+  var reconnectTimer;
+
+  var reconnect = function() {
+    if (reconnectTimer == null) {
+      reconnectTimer = setTimeout(function() {
+        socket.connect();
+        reconnectTimer = null;
+      }, 5000);
+    }
+  }
+  socket.on('disconnect', reconnect);
+  socket.on('connect_failed', reconnect); 
 });
 
 
