@@ -1,14 +1,23 @@
 $(document).ready(function() {
+  function addTweet(tweet, selector, max_count) {
+    var parsed_date = new Date(Date.parse(tweet.created_at));
+    var date_str = parsed_date.format('h:MM tt mmm dS, yyyy');
+    var tweet_el = $('<li><p>' + tweet.text + '</p><a class="time" href="http://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str + '/">' + date_str + '</a></li>');
+    var container = $(selector);
+    container.prepend(tweet_el);
+    var li_selector = 'li:gt(' + (max_count - 1) + ')';
+    container.find(li_selector).remove();
+  }
+
   var socket = new io.Socket(); 
   socket.connect();
   socket.on('message', function(message){
     message = JSON.parse(message);
-    if (message.type == 'user') {
-      var el = $('<li><p>' + message.data.tweet.text + '</p><a class="time" href="http://twitter.com/' + message.data.tweet.user.screen_name + '/status/' + message.data.tweet.id + '/">' + message.data.tweet.created_at + '</a></li>');
+    if (message.type == 'user' && message.data.tweet.text.match(/^@/) == null) {
       if (message.data.tweet.user.screen_name == 'pax_lines') {
-        $('#paxLines').prepend(el);
+        addTweet(message.data.tweet, '#paxLines', 2); 
       } else if (message.data.tweet.user.screen_name == 'Official_PAX') {
-        $('#officialPax').prepend(el);
+        addTweet(message.data.tweet, '#officialPax', 4); 
       }
     }
   }); 
