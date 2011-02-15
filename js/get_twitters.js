@@ -25,6 +25,12 @@ function twitterPoll() {
     });
 }
 
+// The initial request
 twitterPoll();
 
-setInterval("twitterPoll()", 50000);
+// We poll *much* faster at the conference (~60 sec)
+// You should only change this if you have a whitelisted ip
+setInterval("twitterPoll()", 60*1000);
+
+// Reload the page once to clear the virtual memory
+setTimeout("window.location.reload()", 30*60*1000);
