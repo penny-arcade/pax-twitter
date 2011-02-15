@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>PAX Lines &amp; Official Twitter</title>
+	<link rel="stylesheet" media="screen" type="text/css" href="css/pax_twitter.css" />
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+	<script type="text/javascript" src="socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="js/date.format.js"></script>
+  <script type="text/javascript" src="js/twitter-text.js"></script>
+	<script type="text/javascript" src="js/get_twitters.js?7"></script>
+</head>
+<body>
+	<div id="container">
+		<div id="left">
+			<h1 id="header">PAX 2010 Twitter Feeds</h1>
+			<div id="main">
+				<div id="lineTweets" class="tweets">
+					<h2>@PAX_Lines</h2>
+					<p>Check here before heading to the theatres to save time! This feed gives real time updates on how many seats are left, etc!</p>
+					<div><ul id="paxLines"></ul></div>
+				</div>
+			</div>
+			<div id="officialTweets" class="tweets">
+				<h2>@PAX_Tourney</h2>
+				<p>Lorem ipsum dolor sit amet</p>
+				<div id="paxTourney"></div>
+			</div>
+		</div>
+		<div id="right">
+			<div id="officialTweets" class="tweets">
+				<h2>@Official_PAX</h2>
+				<p>General show updates including special events, party locations and more!</p>
+				<div><ul id="officialPax"></ul></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
