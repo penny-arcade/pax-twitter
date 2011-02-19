@@ -5,31 +5,46 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>PAX Lines &amp; Official Twitter</title>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery.timeago.js"></script>
 	<script type="text/javascript" src="socket.io/socket.io.js"></script>
-  <script type="text/javascript" src="js/date.format.js"></script>
   <script type="text/javascript" src="js/twitter-text.js"></script>
   <script type="text/javascript" src="js/mustache.js"></script>
+  <script type="text/javascript" src="js/natcompare.js"></script>
+
 	<script type="text/javascript">
     $(document).ready(function() {
       var socket = new io.Socket(); 
+      var high_id = '0';
+      function check_id(tweet) {
+        var comparison = natcompare(high_id, tweet.id_str);
+        if (comparison < 0) {
+          high_id = tweet.id_str;
+          return true;
+        } else {
+          return false;
+        }
+      }
+
       socket.connect();
       socket.on('message', function(message){
         message = JSON.parse(message);
-        addTweet({
-            id : message.data.tweet.id_str,
-            tweetURL : "http://twitter.com/" + message.data.tweet.user.screen_name + "/status/" + message.data.tweet.id_str,
-            screenName : message.data.tweet.user.screen_name,
-            realName : message.data.tweet.user.name,
-            tweetText : message.data.tweet.text,
-            source : message.data.tweet.source,
-            profilePic : message.data.tweet.user.profile_image_url,
-            profileBackgroundColor : message.data.tweet.user.profile_background_color,
-            profileBackgroundImage : message.data.tweet.user.profile_background_image_url,
-            profileTextColor : message.data.tweet.user.profile_text_color,
-            profileLinkColor : message.data.tweet.user.profile_link_color,
-            timeStamp : message.data.tweet.created_at,
-            utcOffset : message.data.tweet.user.utc_offset
-        }); 
+        if (message.type == "keyword" && check_id(message.data.tweet)) {
+          addTweet({
+              id : message.data.tweet.id_str,
+              tweetURL : "http://twitter.com/" + message.data.tweet.user.screen_name + "/status/" + message.data.tweet.id_str,
+              screenName : message.data.tweet.user.screen_name,
+              realName : message.data.tweet.user.name,
+              tweetText : message.data.tweet.text,
+              source : message.data.tweet.source,
+              profilePic : message.data.tweet.user.profile_image_url,
+              profileBackgroundColor : message.data.tweet.user.profile_background_color,
+              profileBackgroundImage : message.data.tweet.user.profile_background_image_url,
+              profileTextColor : message.data.tweet.user.profile_text_color,
+              profileLinkColor : message.data.tweet.user.profile_link_color,
+              timeStamp : message.data.tweet.created_at,
+              utcOffset : message.data.tweet.user.utc_offset
+          });
+        }
       });
       var reconnectTimer;
 
@@ -47,40 +62,68 @@
 
 addTweet = function(t){
     
+    $('.tweet_container').trigger('newTweet');
     // t will become my mustache 'view' object... but i need to make some mods to it
     
     var tweetView = t;
     tweetView.tweetText = TwitterText.auto_link(t.tweetText);
 
-    t.formattedTime = new Date(Date.parse(t.timeStamp));
-    t.formattedTime = t.formattedTime.format();
-
     // remember, triple stache gives you unescaped code
 
-    var tweetTemplate = "<!-- {{{tweetURL}}} --> ";
+    var tweetTemplate = "<div id='tweet_{{id}}' class='tweet_container'><!-- {{{tweetURL}}} --> ";
 tweetTemplate += "<style type='text/css'>.bbpBox{{id}} {background:url({{{profileBackgroundImage}}}) #{{{profileBackgroundColor}}};padding:20px;} p.bbpTweet{background:#fff;padding:10px 12px 10px 12px;margin:0;min-height:48px;color:#000;font-size:18px !important;line-height:22px;-moz-border-radius:5px;-webkit-border-radius:5px} p.bbpTweet span.metadata{display:block;width:100%;clear:both;margin-top:8px;padding-top:12px;height:40px;border-top:1px solid #fff;border-top:1px solid #e6e6e6} p.bbpTweet span.metadata span.author{line-height:19px} p.bbpTweet span.metadata span.author img{float:left;margin:0 7px 0 0px;width:38px;height:38px} p.bbpTweet a:hover{text-decoration:underline}p.bbpTweet span.timestamp{font-size:12px;display:block}</style> ";
 
-tweetTemplate += "<div class='bbpBox{{id}} bbpContainer'><p class='bbpTweet'>{{{tweetText}}}<span class='timestamp'><a title='{{timeStamp}}' href='{{{tweetURL}}}'>{{{formattedTime}}}</a> via {{{source}}}</span><span class='metadata'><span class='author'><a href='http://twitter.com/{{screenName}}'><img src='{{profilePic}}' /></a><strong><a href='http://twitter.com/{{screenName}}'>{{realName}}</a></strong><br/>{{screenName}}</span></span></p></div>";
+tweetTemplate += "<div class='bbpBox{{id}} bbpContainer'><p class='bbpTweet'>{{{tweetText}}}<span class='timestamp'><a title='{{timeStamp}}' href='{{{tweetURL}}}'>{{{timeStamp}}}</a> via {{{source}}}</span><span class='metadata'><span class='author'><a href='http://twitter.com/{{screenName}}'><img src='{{profilePic}}' /></a><strong><a href='http://twitter.com/{{screenName}}'>{{realName}}</a></strong><br/>{{screenName}}</span></span></p></div>";
 
-    tweetTemplate += " <!-- end of tweet -->";
+    tweetTemplate += " <!-- end of tweet --></div>";
     
-    var tweetMarkup = Mustache.to_html(tweetTemplate, tweetView);
-        
+    var tweetMarkup = $(Mustache.to_html(tweetTemplate, tweetView));
+    tweetMarkup.find('.timestamp a').timeago();
+    tweetMarkup.css({visibility: 'hidden'});
+    $('#content').append(tweetMarkup);
+      
+    var divwidth = tweetMarkup.width();
+    var divheight = tweetMarkup.height();
+    var posx = (Math.random() * ($(window).width() - divwidth)).toFixed();
+    var posy = (Math.random() * ($(window).height() - divheight)).toFixed();
+    tweetMarkup.offset({
+      top: posy,
+      left: posx
+    });
+
+    var currentOpacity = 1.5;
+    tweetMarkup.bind('newTweet', function() {
+      currentOpacity -= 0.1;
+      tweetMarkup.fadeTo('fast', currentOpacity, function() {
+        if(currentOpacity <= 0) {
+          tweetMarkup.remove();
+        }
+      });
+    });
     // whew
+
+    tweetMarkup.css({visibility: "visible"});
     
-    $('#content').prepend(tweetMarkup);
 }
   </script>
   <style type="text/css">
+    .tweet_container {
+      position: absolute;
+    }
+
     .bbpContainer {
       margin: 10px;
       width: 570px;
       font-family: Verdana, sans-serif;
     }
+    body {
+      margin: 0px;
+      background: black; /* url('img/zomgharts.gif');*/
+      overflow: hidden;
+    }
   </style>
 </head>
 <body>
-<h1>Raw responses</h1>
 <div id="content">
 </div>
 </body>
