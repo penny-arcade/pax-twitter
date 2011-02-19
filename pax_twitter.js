@@ -109,7 +109,7 @@ function idInArray(arr, value) {
 
 function addToCache(arr, value) {
   if (arr.unshift(value) > 25) {
-    arr = arr.slice(0, 24);
+    arr.splice(25, arr.length - 25);
   }
 }
 
