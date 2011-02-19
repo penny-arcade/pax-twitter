@@ -2,7 +2,8 @@ $(document).ready(function() {
   function addTweet(tweet, selector, max_count) {
     var container = $(selector);
     if (container.length > 0) {
-      var tweet_el = $('<li><p>' + TwitterText.auto_link(tweet.text) + '</p><a class="time" href="http://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str + '/"><abbr title="' + tweet.created_at + '">' + tweet.created_at + '</abbr></a></li>');
+      var tweet_html = '<li><p>' + TwitterText.auto_link(tweet.text) + '</p><a class="time" href="http://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str + '/"><abbr title="' + tweet.created_at + '">' + tweet.created_at + '</abbr></a></li>';
+      var tweet_el = $(tweet_html);
       tweet_el.find('abbr').timeago();
       container.prepend(tweet_el);
       var li_selector = 'li:gt(' + (max_count - 1) + ')';
@@ -13,7 +14,7 @@ $(document).ready(function() {
   var socket = new io.Socket(); 
   socket.connect();
   socket.on('message', function(message){
-    message = JSON.parse(message);
+    message = $.parseJSON(message);
     if (message.type == 'user' && message.data.tweet.text.match(/^@/) == null) {
       if (message.data.tweet.user.screen_name == 'pax_lines') {
         addTweet(message.data.tweet, '#paxLines', 2); 
