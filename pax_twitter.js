@@ -142,7 +142,7 @@ pax_tweets.addListener('tweet', function(tweet) {
 
 pax_tweets.addListener('end', function(statusCode) {
   console.log("Stream Closed with " + sys.inspect(statusCode));
-  setTimeout(pax_tweets.stream(), 5000);
+  setTimeout(pax_tweets.stream, 5000);
 });
 
 pax_tweets.addListener('error', function(err) {
