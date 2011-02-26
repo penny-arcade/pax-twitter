@@ -20,8 +20,8 @@ $(document).ready(function() {
         addTweet(message.data.tweet, '#paxLines', 2); 
       } else if (message.data.tweet.user.screen_name == 'Official_PAX') {
         addTweet(message.data.tweet, '#officialPax', 4); 
-      } else if (message.data.tweet.user.screen_name == 'PAX_Tourney') {
-        addTweet(message.data.tweet, '#PaxTourney', 2); 
+      } else if (message.data.tweet.user.screen_name == 'TT_HQ') {
+        addTweet(message.data.tweet, '#paxTourney', 2); 
       }
     }
   }); 
