@@ -73,7 +73,8 @@ app.listen(config.listen_port);
 var io = io.listen(app);
 
 io.on('connection', function(client) {
-  for(var user in followed_user_tweets) {
+  for(var j in config.follow_users) {
+    var user = config.follow_users[j];
     for(var i = followed_user_tweets[user].length - 1; i >= 0; i--) {
       sendData(client, 'user', {
         user: user,
@@ -81,7 +82,8 @@ io.on('connection', function(client) {
       });
     }
   }
-  for(var keyword in followed_keyword_tweets) {
+  for(var j in config.follow_keywords) {
+    var keyword = config.follow_keywords[j];
     for(var i = followed_keyword_tweets[keyword].length - 1; i >= 0; i--) {
       sendData(client, 'keyword', {
         keyword: keyword,
