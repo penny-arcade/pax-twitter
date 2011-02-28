@@ -75,20 +75,24 @@ var io = io.listen(app);
 io.on('connection', function(client) {
   for(var j in config.follow_users) {
     var user = config.follow_users[j];
-    for(var i = followed_user_tweets[user].length - 1; i >= 0; i--) {
-      sendData(client, 'user', {
-        user: user,
-        tweet: followed_user_tweets[user][i]
-      });
+    if (!(typeof followed_user_tweets[user] === "undefined")) {
+      for(var i = followed_user_tweets[user].length - 1; i >= 0; i--) {
+        sendData(client, 'user', {
+          user: user,
+          tweet: followed_user_tweets[user][i]
+        });
+      }
     }
   }
   for(var j in config.follow_keywords) {
     var keyword = config.follow_keywords[j];
-    for(var i = followed_keyword_tweets[keyword].length - 1; i >= 0; i--) {
-      sendData(client, 'keyword', {
-        keyword: keyword,
-        tweet: followed_keyword_tweets[keyword][i]
-      });
+    if (!(typeof followed_keyword_tweets[keyword] === "undefined")) {
+      for(var i = followed_keyword_tweets[keyword].length - 1; i >= 0; i--) {
+        sendData(client, 'keyword', {
+          keyword: keyword,
+          tweet: followed_keyword_tweets[keyword][i]
+        });
+      }
     }
   }
 });
