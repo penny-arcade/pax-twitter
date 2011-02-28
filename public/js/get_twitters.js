@@ -2,7 +2,7 @@ $(document).ready(function() {
   function addTweet(tweet, selector, max_count) {
     var container = $(selector);
     if (container.length > 0) {
-      var tweet_html = '<li><p>' + TwitterText.auto_link(tweet.text) + '</p><a class="time" href="http://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str + '/"><abbr title="' + tweet.created_at + '">' + tweet.created_at + '</abbr></a></li>';
+      var tweet_html = '<li data-tweet-id="' + tweet.id_str + '"><p>' + TwitterText.auto_link(tweet.text) + '</p><a class="time" href="http://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str + '/"><abbr title="' + tweet.created_at + '">' + tweet.created_at + '</abbr></a></li>';
       var tweet_el = $(tweet_html);
       tweet_el.find('abbr').timeago();
       container.prepend(tweet_el);
@@ -23,6 +23,8 @@ $(document).ready(function() {
       } else if (message.data.tweet.user.screen_name == 'TT_HQ') {
         addTweet(message.data.tweet, '#paxTourney', 2); 
       }
+    } else if (message.type == "delete") {
+      $("[data-tweet-id='" + message.data.id_str + "']").remove();
     }
   }); 
   // Do I need this?

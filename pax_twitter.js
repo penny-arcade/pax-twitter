@@ -119,6 +119,25 @@ function addToCache(arr, value) {
   }
 }
 
+function deleteFromCaches(id_str) {
+  for (var i in followed_user_tweets) {
+    followed_user_tweets[i] = followed_user_tweets[i].filter(function(tweet){
+      return (tweet.id_str != id_str); // return false (ie, filter out) if id_str matches
+    });
+  }
+
+  for (var i in followed_keyword_tweets) {
+    followed_keyword_tweets[i] = followed_keyword_tweets[i].filter(function(tweet){
+      return (tweet.id_str != id_str); // return false (ie, filter out) if id_str matches
+    });
+  }
+}
+
+function deleteTweet(tweet) {
+  deleteFromCaches(tweet.id_str);
+  broadcastData('delete', {id_str: tweet.id_str});
+}
+
 function receivedTweet(tweet) {
   if(inArray(config.follow_users, tweet.user.id)) {
     followed_user_tweets[tweet.user.id] = followed_user_tweets[tweet.user.id] || [];
@@ -165,7 +184,7 @@ function primeCache() {
       console.log("Queueing cache prime for " + user);
       setTimeout(function() {
         console.log("Executing cache prime for " + user);
-        var req = twitter_client.request('GET', '/statuses/user_timeline/' + user + '.json', {'host': 'twitter.com'});
+        var req = twitter_client.request('GET', '/statuses/user_timeline/' + user + '.json', {'host': 'api.twitter.com'});
         req.on('response', function(response) {
           if (response.statusCode == 200) {
             var body = "";
