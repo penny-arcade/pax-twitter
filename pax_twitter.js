@@ -222,5 +222,10 @@ function primeCache() {
   }
 }
  
-primeCache();
-pax_tweets.stream();
+var setupStream = function() {
+  primeCache();
+  pax_tweets.stream();
+}
+
+setupStream();
+setInterval( setupStream, 3600000); // Make sure we're still connected every hour
