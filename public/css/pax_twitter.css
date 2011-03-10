@@ -11,6 +11,7 @@ body {
 	background: #16171b url(../img/bg_body.png) top left repeat-x;
 	font-family: Helvetica, Arial, Verdana, sans-serif;
 	color: #fff;
+  overflow: hidden;
 }
 hr {display: none;}
 img, fieldset {border: none;}
@@ -122,4 +123,9 @@ h2 {
 }
 #officialTweets .time {
 	background: #242424;
+}
+.screen_name {
+  font-weight: bold;
+  font-size: 24px;
+  color: #8d8d8d;
 }
