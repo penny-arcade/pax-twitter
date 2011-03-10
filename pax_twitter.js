@@ -229,6 +229,12 @@ var setupStream = function() {
   if (pax_tweets._clientResponse)
     pax_tweets._clientResponse.removeAllListeners("end");
   pax_tweets.stream();
+  if (pax_tweets._clientResponse)
+    pax_tweets._clientResponse.on('error', function() {
+      setTimeout(function() {
+        pax_tweets.stream()
+      }, 5000);
+    });
 }
 
 setupStream();
