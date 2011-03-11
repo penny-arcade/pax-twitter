@@ -1,9 +1,14 @@
 $(document).ready(function() {
-  function addTweet(tweet, selector, max_count) {
+  function addTweet(tweet, selector, max_count, show_user) {
     var container = $(selector);
     if (container.length > 0) {
-      var tweet_html = '<li data-tweet-id="' + tweet.id_str + '"><p>' + TwitterText.auto_link(tweet.text) + '</p><a class="time" href="http://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str + '/"><abbr title="' + tweet.created_at + '">' + tweet.created_at + '</abbr></a></li>';
-      var tweet_el = $(tweet_html);
+      var tweet_el = $('<li data-tweet-id="' + tweet.id_str + '"></li>');
+      if (show_user) {
+        tweet_el.append('<div class="screen_name">' + tweet.user.screen_name + '</div>');
+        tweet_el.css({ 'background-image': 'url(' + tweet.user.profile_image_url + ')' });
+      }
+      var tweet_html = '<p>' + TwitterText.auto_link(tweet.text) + '</p><a class="time" href="http://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str + '/"><abbr title="' + tweet.created_at + '">' + tweet.created_at + '</abbr></a>';
+      tweet_el.append(tweet_html);
       tweet_el.find('abbr').timeago();
       container.prepend(tweet_el);
       var li_selector = 'li:gt(' + (max_count - 1) + ')';
@@ -21,8 +26,10 @@ $(document).ready(function() {
       } else if (message.data.tweet.user.screen_name == 'Official_PAX') {
         addTweet(message.data.tweet, '#officialPax', 4); 
       } else if (message.data.tweet.user.screen_name == 'TT_HQ') {
-        addTweet(message.data.tweet, '#paxTourney', 2); 
+        addTweet(message.data.tweet, '#paxTourney', 5); 
       }
+    } else if (message.type == "keyword" && message.data.keyword.toLowerCase() == "#ttlfg" ) {
+      addTweet(message.data.tweet, "#ttlfg", 7, true);
     } else if (message.type == "delete") {
       $("[data-tweet-id='" + message.data.id_str + "']").remove();
     }
