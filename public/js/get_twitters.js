@@ -1,7 +1,7 @@
 $(document).ready(function() {
   function addTweet(tweet, selector, max_count, show_user) {
     var container = $(selector);
-    if (container.length > 0) {
+    if (container.length > 0 && container.find("[data-tweet-id='" + tweet.id_str + "']").length == 0) {
       var tweet_el = $('<li data-tweet-id="' + tweet.id_str + '"></li>');
       if (show_user) {
         tweet_el.append('<div class="screen_name">' + tweet.user.screen_name + '</div>');
