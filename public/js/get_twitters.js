@@ -21,11 +21,11 @@ $(document).ready(function() {
   socket.on('message', function(message){
     message = $.parseJSON(message);
     if (message.type == 'user' && message.data.tweet.text.match(/^@/) == null) {
-      if (message.data.tweet.user.screen_name == 'pax_lines') {
+      if (message.data.tweet.user.screen_name.toLowerCase() == 'pax_lines') {
         addTweet(message.data.tweet, '#paxLines', 2); 
-      } else if (message.data.tweet.user.screen_name == 'Official_PAX') {
+      } else if (message.data.tweet.user.screen_name.toLowerCase() == 'official_pax') {
         addTweet(message.data.tweet, '#officialPax', 4); 
-      } else if (message.data.tweet.user.screen_name == 'TT_HQ') {
+      } else if (message.data.tweet.user.screen_name.toLowerCase() == 'tt_hq') {
         addTweet(message.data.tweet, '#paxTourney', 5); 
       }
     } else if (message.type == "keyword" && message.data.keyword.toLowerCase() == "#ttlfg" ) {
