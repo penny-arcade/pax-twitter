@@ -170,10 +170,12 @@ var reconnect = function() {
   if (reconnectTimer) {
     console.log("Reconnect requested, but ignored");
   } else {
-    setTimeout(function() {
+    reconnectTimer = setTimeout(function() {
+      if (pax_tweets._clientResponse)
+        pax_tweets._clientResponse.removeAllListeners("end");
       pax_tweets.stream();
       reconnectTimer = null;
-    }, 5000);
+    }, 15000);
   }
 }
 
@@ -241,11 +243,6 @@ var setupStream = function() {
   if (pax_tweets._clientResponse)
     pax_tweets._clientResponse.removeAllListeners("end");
   pax_tweets.stream();
-  if (pax_tweets._clientResponse) {
-    pax_tweets._clientResponse.on('error', function() {
-      reconnect();
-    });
-  }
 }
 
 
