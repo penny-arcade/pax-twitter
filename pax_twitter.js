@@ -165,15 +165,27 @@ pax_tweets.addListener('tweet', function(tweet) {
   receivedTweet(tweet);
 });
 
+var reconnectTimer = null;
+var reconnect = function() {
+  if (reconnectTimer) {
+    console.log("Reconnect requested, but ignored");
+  } else {
+    setTimeout(function() {
+      pax_tweets.stream();
+      reconnectTimer = null;
+    }, 5000);
+  }
+}
+
+
 pax_tweets.addListener('end', function(statusCode) {
   console.log("Stream Closed with " + sys.inspect(statusCode));
-  setTimeout(function() {
-    pax_tweets.stream()
-  }, 5000);
+  reconnect();
 });
 
 pax_tweets.addListener('error', function(err) {
   console.log(sys.inspect(err));
+  reconnect();
 });
 
 
@@ -229,13 +241,72 @@ var setupStream = function() {
   if (pax_tweets._clientResponse)
     pax_tweets._clientResponse.removeAllListeners("end");
   pax_tweets.stream();
-  if (pax_tweets._clientResponse)
+  if (pax_tweets._clientResponse) {
     pax_tweets._clientResponse.on('error', function() {
-      setTimeout(function() {
-        pax_tweets.stream()
-      }, 5000);
+      reconnect();
     });
+  }
 }
+
+
+function extend(a, b) {
+  Object.keys(b).forEach(function (key) {
+    a[key] = b[key];
+  });
+  return a;
+}
+
+var basicAuth = function basicAuth(user, pass) {
+  return "Basic " + new Buffer(user + ":" + pass).toString('base64');
+};
+
+pax_tweets.stream = function stream() {
+  console.log('New Stream');
+  if (this._clientResponse && this._clientResponse.connection) {
+    this._clientResponse.socket.end();
+  }
+
+  if (this.action === 'filter' && this.buildParams() === '') return;
+
+  var client  = this._createClient(this.port, this.host),
+      headers = extend({}, this.headers),
+      twit    = this,
+      request;
+
+  headers['Host'] = this.host;
+
+  if (this.user) {
+    headers['Authorization'] = basicAuth(this.user, this.password);
+  }
+
+  client.addListener('error', function(error) {
+    twit.emit('error', error);
+  });
+  request = client.request("GET", this.requestUrl(), headers);
+
+  request.addListener('error', function(error) {
+    twit.emit('error', error);
+  });
+
+  request.addListener('response', function(response) {
+    twit._clientResponse = response;
+
+    response.addListener('data', function(chunk) {
+      twit._receive(chunk);
+    });
+
+    response.addListener('end', function() {
+      twit.emit('end', this);
+      twit.emit('close', this);
+    });
+
+    response.addListener('error', function(error) {
+      twit.emit('error', error);
+    });
+  });
+  request.end();
+  return this;
+};
 
 setupStream();
 setInterval( setupStream, 3600000); // Make sure we're still connected every hour
