@@ -259,8 +259,8 @@ var basicAuth = function basicAuth(user, pass) {
 
 pax_tweets.stream = function stream() {
   console.log('New Stream');
-  if (this._clientResponse && this._clientResponse.connection) {
-    this._clientResponse.socket.end();
+  if (this._clientRequest) {
+    this._clientRequest.abort();
   }
 
   if (this.action === 'filter' && this.buildParams() === '') return;
@@ -279,13 +279,10 @@ pax_tweets.stream = function stream() {
   client.addListener('error', function(error) {
     twit.emit('error', error);
   });
-  request = client.request("GET", this.requestUrl(), headers);
 
-  request.addListener('error', function(error) {
-    twit.emit('error', error);
-  });
+  twit._clientRequest = client.request("GET", this.requestUrl(), headers);
 
-  request.addListener('response', function(response) {
+  twit._clientRequest.addListener('response', function(response) {
     twit._clientResponse = response;
 
     response.addListener('data', function(chunk) {
@@ -296,12 +293,8 @@ pax_tweets.stream = function stream() {
       twit.emit('end', this);
       twit.emit('close', this);
     });
-
-    response.addListener('error', function(error) {
-      twit.emit('error', error);
-    });
   });
-  request.end();
+  twit._clientRequest.end();
   return this;
 };
 
