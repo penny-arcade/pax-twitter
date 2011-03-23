@@ -4,6 +4,12 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>PAX Lines &amp; Official Twitter</title>
 	<link rel="stylesheet" media="screen" type="text/css" href="css/pax_twitter.css" />
+	<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script> -->
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.5.1rc1.js"></script>
+	<script type="text/javascript" src="js/jquery.timeago.js"></script>
+	<script type="text/javascript" src="socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="js/twitter-text.js"></script>
+	<script type="text/javascript" src="js/get_twitters.js?7"></script>
 </head>
 <body>
 	<div id="container">
@@ -13,7 +19,7 @@
 				<div id="lineTweets" class="tweets">
 					<h2 id="txtLines">PAX Lines</h2>
 					<p>Check @pax_lines before heading down to the Benaroya to save yourself some time! This feed gives real time updates on how many seats are left, etc!</p>
-					<div id="paxLines"></div>
+					<div><ul id="paxLines"></ul></div>
 				</div>
 			</div>
 		</div>
@@ -21,11 +27,9 @@
 			<div id="officialTweets" class="tweets">
 				<h2 id="txtOfficial">Official PAX</h2>
 				<p>Receive general show updates via @official_pax, including special events, party locations and more!</p>
-				<div id="officialPax"></div>
+				<div><ul id="officialPax"></ul></div>
 			</div>
 		</div>
 	</div>
-	<script src="http://twitterjs.googlecode.com/svn/trunk/src/twitter.min.js" type="text/javascript"></script>
-	<script type="text/javascript" src="js/get_twitters.js"></script>
 </body>
 </html>

@@ -1,0 +1,9 @@
+[submodule "node_modules/express"]
+	path = node_modules/express
+	url = https://github.com/visionmedia/express.git
+[submodule "node_modules/socket.io"]
+	path = node_modules/socket.io
+	url = https://github.com/LearnBoost/Socket.IO-node.git
+[submodule "node_modules/twitter-node"]
+	path = node_modules/twitter-node
+	url = https://github.com/technoweenie/twitter-node.git
